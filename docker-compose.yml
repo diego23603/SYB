@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8081:80" # Puerto externo para el servidor web
+    volumes:
+      - ./src:/usr/share/nginx/html
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: syb_db
+      MYSQL_USER: syb_user
+      MYSQL_PASSWORD: syb_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  mysql-exporter:
+    image: prom/mysqld-exporter:latest
+    ports:
+      - "9104:9104" # Puerto para el Exporter
+    environment:
+      DATA_SOURCE_NAME: "syb_user:syb_password@(db:3306)/syb_db" # Conexión a MySQL
+    depends_on:
+      - db
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml # Archivo de configuración
+    ports:
+      - "9090:9090" # Puerto de Prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    depends_on:
+      - web
+      - db
+      - mysql-exporter
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000" # Puerto para Grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+volumes:
+  db_data:
+  grafana_data:

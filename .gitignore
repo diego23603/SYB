@@ -1,0 +1,29 @@
+# Archivos y carpetas específicas del sistema operativo
+.DS_Store          # macOS
+Thumbs.db          # Windows
+*.swp              # Archivos temporales de editores de texto
+
+# Archivos y carpetas específicas de Docker
+docker-compose.override.yml
+*.pid
+*.sock
+
+# Volúmenes persistentes de Docker
+volumes/
+
+# Archivos de configuración sensibles
+.env
+
+# Archivos y logs de desarrollo
+*.log
+debug.log
+*.bak
+*.tmp
+
+# Node.js (en caso de que uses Node para alguna funcionalidad)
+node_modules/
+
+# Configuración de editores/IDE
+.idea/             # IntelliJ IDEA
+.vscode/           # Visual Studio Code
+*.code-workspace   # Configuración de espacio de trabajo
