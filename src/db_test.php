@@ -1,17 +1,15 @@
 <?php
-$servername = "db"; // Nombre del servicio definido en docker-compose.yml
-$username = "syb_user"; // Usuario de la base de datos
-$password = "syb_password"; // Contraseña de la base de datos
-$dbname = "syb_db"; // Nombre de la base de datos
+$servername = "db";
+$username = "syb_user";
+$password = "syb_password";
+$database = "salud_bienestar";
 
 // Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $database);
 
 // Verificar conexión
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 echo "Conexión exitosa a la base de datos!";
-
-$conn->close();
 ?>
