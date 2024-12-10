@@ -1,14 +1,30 @@
-FROM nginx:latest
+# Usar PHP-FPM con una versión estable
+FROM php:8.1-fpm
 
-# Instalar PHP y extensiones necesarias
+# Instalar dependencias necesarias, incluyendo Nginx y PHP-MySQL
 RUN apt-get update && apt-get install -y \
-    php-fpm \
-    php-mysql
+    nginx \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    && docker-php-ext-install pdo_mysql mysqli gd
 
-# Copiar los archivos de la aplicación al directorio raíz del servidor web
-COPY src/ /usr/share/nginx/html/
+# Copiar los archivos de la aplicación web al directorio raíz de Nginx
+COPY src/ /var/www/html/
 
-# Copiar la configuración de Nginx para PHP
+# Copiar la configuración de Nginx
 COPY default.conf /etc/nginx/conf.d/default.conf
-# Iniciar PHP-FPM junto con Nginx
-CMD ["sh", "-c", "php-fpm7.4 -D && nginx -g 'daemon off;'"]
+
+# Ajustar permisos para garantizar el acceso
+RUN chmod -R 755 /var/www/html
+
+# Exponer el puerto 80 para el contenedor
+EXPOSE 80
+
+# Iniciar PHP-FPM y Nginx al iniciar el contenedor
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]

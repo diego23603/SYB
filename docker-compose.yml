@@ -3,6 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
+    image: salud-y-bienestar-web # Nombre específico para la imagen
     ports:
       - "8081:80" # Puerto externo para el servidor web
     volumes:
