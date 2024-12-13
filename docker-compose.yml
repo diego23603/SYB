@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Servicio para la aplicación Node.js
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - NODE_ENV=development
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # Servicio para PostgreSQL (en este caso no lo necesitas si estás usando RDS en AWS)
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+# Volúmenes para persistir datos (aunque en tu caso se usan datos de AWS)
+volumes:
+  postgres-data:
+
+# Definir redes de contenedores
+networks:
+  app-network:
+    driver: bridge

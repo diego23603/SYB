@@ -1,0 +1,49 @@
+# Node.js
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencias de Yarn
+.yarn/
+.pnp/
+.pnp.js
+
+# Archivos de la base de datos de local
+*.db
+*.sqlite
+
+# Entornos de desarrollo
+.env
+.env.local
+.env.*.local
+
+# Archivos de construcción
+build/
+dist/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos específicos de IDEs y editores
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Archivos de salida de test
+coverage/
+*.lcov
+
+# Archivos de configuración de NPM
+npm-shrinkwrap.json
+package-lock.json
+
+# Otros archivos que no quieres que estén en el repositorio
+*.bak
+*.swp
