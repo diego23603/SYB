@@ -1,34 +1,183 @@
+/* General styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    background-color: #f8f9fa;
+    color: #343a40;
 }
 
 header {
-    background: #4CAF50;
+    background: linear-gradient(90deg, #007BFF, #6610f2);
     color: white;
     text-align: center;
-    padding: 1rem;
+    padding: 1.5rem 1rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-section {
-    margin: 1rem;
-    padding: 1rem;
-    background: #ffffff;
-    border: 1px solid #ddd;
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #343a40;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background: #007BFF;
+    color: #ffffff;
+    border-radius: 4px;
+}
+
+/* Main content */
+main {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Section titles */
+main h2 {
+    color: #007BFF;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Forms */
+form label {
+    display: block;
+    margin: 0.5rem 0 0.3rem;
+    font-weight: bold;
+    color: #343a40;
 }
 
 form input, form textarea, form button {
-    display: block;
     width: 100%;
+    padding: 0.8rem;
     margin-bottom: 1rem;
-    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1rem;
 }
 
-footer {
-    text-align: center;
-    padding: 1rem;
-    background: #333;
+form input:focus, form textarea:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+}
+
+form button {
+    background: #007BFF;
     color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background: #0056b3;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+table th, table td {
+    text-align: left;
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+}
+
+table th {
+    background: #007BFF;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+table tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+table tr:hover {
+    background: rgba(0, 123, 255, 0.1);
+}
+
+.btn {
+    display: inline-block;
+    background: #007BFF;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+.btn-edit {
+    background: #ffc107;
+    color: #343a40;
+}
+
+.btn-edit:hover {
+    background: #e0a800;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li a {
+        text-align: center;
+        padding: 1rem;
+    }
+
+    main {
+        padding: 1.5rem;
+    }
+
+    form input, form textarea, form button {
+        font-size: 0.9rem;
+    }
+
+    table th, table td {
+        font-size: 0.9rem;
+    }
 }

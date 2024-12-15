@@ -4,29 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salud y Bienestar</title>
-    <link rel="stylesheet" href="/../css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Bienvenidos a Salud y Bienestar</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Catálogo de Productos</h2>
-            <p>Descubre nuestras ofertas y promociones.</p>
-        </section>
-        <section>
-            <h2>Contacto</h2>
-            <form action="/contact" method="POST">
-                <input type="text" name="name" placeholder="Nombre" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <textarea name="message" placeholder="Mensaje" required></textarea>
-                <button type="submit">Enviar</button>
-            </form>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 Salud y Bienestar</p>
-    </footer>
+    <div class="container">
+        <header>
+            <h1>Salud y Bienestar</h1>
+        </header>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="productos.php">Productos</a>
+            <a href="agregar_producto.php">Agregar Producto</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+        <main>
+            <h2>Bienvenido a Salud y Bienestar</h2>
+            <p>Descubre nuestros productos y servicios diseñados para tu bienestar.</p>
+            <button onclick="window.location.href='productos.php';">Ver Productos</button>
+        </main>
+    </div>
 </body>
 </html>

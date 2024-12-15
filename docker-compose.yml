@@ -7,7 +7,7 @@ services:
     ports:
       - "8081:80" # Puerto externo para el servidor web
     volumes:
-      - ./src:/usr/share/nginx/html
+    - ./src:/var/www/html
     depends_on:
       - db
 
