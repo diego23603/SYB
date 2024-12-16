@@ -61,11 +61,11 @@ export default function Products() {
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Health Products</h1>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Productos de Bienestar y Salud</h1>
         <Link href="/products/new">
-          <Button>
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg transition-all hover:scale-105">
             <PlusCircle className="mr-2 h-4 w-4" />
-            Add Product
+            Añadir Producto
           </Button>
         </Link>
       </div>
@@ -90,18 +90,26 @@ export default function Products() {
                 />
               </div>
               <p className="text-gray-600 line-clamp-2">{product.description}</p>
-              <div className="mt-4 flex justify-between items-center">
-                <span className="text-sm text-gray-500">
-                  Stock: {product.stock}
-                </span>
-                <span className="text-sm text-gray-500">
-                  Category: {product.category}
-                </span>
+              <div className="mt-4 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-600">
+                    Inventario: <span className="text-blue-600">{product.stock} unidades</span>
+                  </span>
+                  <span className="text-sm font-medium text-gray-600">
+                    Categoría: <span className="text-blue-600">{product.category}</span>
+                  </span>
+                </div>
+                <div className="h-1 w-full bg-gray-200 rounded-full">
+                  <div 
+                    className="h-1 bg-blue-600 rounded-full transition-all"
+                    style={{ width: `${Math.min((Number(product.stock) / 100) * 100, 100)}%` }}
+                  />
+                </div>
               </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
               <Link href={`/products/${product.id}/edit`}>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" className="hover:border-blue-600 hover:text-blue-600 transition-colors">
                   <Edit className="h-4 w-4" />
                 </Button>
               </Link>
@@ -109,6 +117,7 @@ export default function Products() {
                 variant="destructive"
                 size="icon"
                 onClick={() => handleDeleteClick(product.id)}
+                className="hover:bg-red-700 transition-colors"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -120,14 +129,14 @@ export default function Products() {
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Are you sure you want to delete this product?</DialogTitle>
+            <DialogTitle>¿Estás seguro de que quieres eliminar este producto?</DialogTitle>
           </DialogHeader>
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
-              Cancel
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)} className="hover:bg-gray-100">
+              Cancelar
             </Button>
-            <Button variant="destructive" onClick={confirmDelete}>
-              Delete
+            <Button variant="destructive" onClick={confirmDelete} className="hover:bg-red-700">
+              Eliminar
             </Button>
           </div>
         </DialogContent>

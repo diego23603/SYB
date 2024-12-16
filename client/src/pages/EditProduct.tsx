@@ -21,12 +21,12 @@ import { queryClient } from "@/lib/queryClient";
 import { createProduct, updateProduct } from "@/lib/api";
 
 const productSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  description: z.string().min(1, "Description is required"),
-  category: z.string().min(1, "Category is required"),
-  price: z.string().min(1, "Price is required"),
-  imageUrl: z.string().url("Must be a valid URL"),
-  stock: z.string().min(1, "Stock is required"),
+  name: z.string().min(1, "El nombre es requerido"),
+  description: z.string().min(1, "La descripción es requerida"),
+  category: z.string().min(1, "La categoría es requerida"),
+  price: z.string().min(1, "El precio es requerido"),
+  imageUrl: z.string().url("Debe ser una URL válida"),
+  stock: z.string().min(1, "El stock es requerido"),
 });
 
 export default function EditProduct() {
@@ -100,23 +100,23 @@ export default function EditProduct() {
     <div className="container mx-auto py-8">
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
-          <CardTitle>
-            {isNew ? "Add New Product" : "Edit Product"}
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+            {isNew ? "Añadir Nuevo Producto" : "Editar Producto"}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-xl mx-auto">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel className="text-gray-700">Nombre del Producto</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} className="focus-visible:ring-blue-500" />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />

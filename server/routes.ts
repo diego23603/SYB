@@ -4,6 +4,7 @@ import { db } from "@db";
 import { products } from "@db/schema";
 import { eq } from "drizzle-orm";
 import * as promClient from 'prom-client';
+import dgram from 'dgram';
 
 // Create a Registry to register the metrics
 const register = new promClient.Registry();
@@ -71,8 +72,11 @@ export function registerRoutes(app: Express): Server {
     try {
       await updateProductMetrics();
       res.set('Content-Type', register.contentType);
-      res.send(await register.metrics());
+      const metrics = await register.metrics();
+      console.log('Metrics endpoint called, sending metrics:', metrics.slice(0, 200) + '...');
+      res.send(metrics);
     } catch (err) {
+      console.error('Error in metrics endpoint:', err);
       res.status(500).send(err);
     }
   });
@@ -82,15 +86,17 @@ export function registerRoutes(app: Express): Server {
     res.json({ status: "healthy" });
   });
 
-  // Products CRUD endpoints
-  app.get("/api/products", async (_req, res) => {
+  // Products CRUD endpoints with Logstash logging
+  app.get("/api/products", async (req, res) => {
     try {
       const allProducts = await db.query.products.findMany({
         orderBy: (products, { desc }) => [desc(products.createdAt)],
       });
       res.json(allProducts);
+      sendLogToLogstash(req, res, "Products fetched successfully");
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch products" });
+      sendLogToLogstash(req, res, "Error fetching products: " + error);
     }
   });
 
@@ -105,8 +111,10 @@ export function registerRoutes(app: Express): Server {
       }
       
       res.json(product);
+      sendLogToLogstash(req, res, "Product fetched successfully");
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch product" });
+      sendLogToLogstash(req, res, "Error fetching product: " + error);
     }
   });
 
@@ -115,8 +123,10 @@ export function registerRoutes(app: Express): Server {
       const [product] = await db.insert(products).values(req.body).returning();
       await updateProductMetrics();
       res.status(201).json(product);
+      sendLogToLogstash(req, res, "Product created successfully");
     } catch (error) {
       res.status(500).json({ error: "Failed to create product" });
+      sendLogToLogstash(req, res, "Error creating product: " + error);
     }
   });
 
@@ -134,8 +144,10 @@ export function registerRoutes(app: Express): Server {
       
       await updateProductMetrics();
       res.json(product);
+      sendLogToLogstash(req, res, "Product updated successfully");
     } catch (error) {
       res.status(500).json({ error: "Failed to update product" });
+      sendLogToLogstash(req, res, "Error updating product: " + error);
     }
   });
 
@@ -152,11 +164,31 @@ export function registerRoutes(app: Express): Server {
       
       await updateProductMetrics();
       res.json({ message: "Product deleted successfully" });
+      sendLogToLogstash(req, res, "Product deleted successfully");
     } catch (error) {
       res.status(500).json({ error: "Failed to delete product" });
+      sendLogToLogstash(req, res, "Error deleting product: " + error);
     }
   });
 
   const httpServer = createServer(app);
   return httpServer;
+}
+
+function sendLogToLogstash(req: any, res: any, message: string) {
+    const logData = {
+        type: "app",
+        message: message,
+        timestamp: new Date().toISOString(),
+        service: "api",
+        method: req.method,
+        path: req.path,
+        level: res.statusCode >= 400 ? "error" : "info"
+    };
+
+    const client = dgram.createSocket('udp4');
+    client.send(JSON.stringify(logData), 5044, 'logstash', (err) => {
+      if (err) console.error('Error sending log to Logstash:', err);
+      client.close();
+    });
 }
