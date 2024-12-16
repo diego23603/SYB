@@ -120,12 +120,11 @@ Este proyecto implementa una plataforma empresarial de gestión de salud y biene
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone [url-del-repositorio]
-   cd [nombre-del-proyecto]
+   git clone https://github.com/diego23603/SYB.git
+   cd SYB
    ```
 
 2. **Configurar variables de entorno:**
-   - Crear archivo `.env` basado en `.env.example`
    - Configurar las credenciales de la base de datos
 
 3. **Iniciar servicios con Docker Compose:**
